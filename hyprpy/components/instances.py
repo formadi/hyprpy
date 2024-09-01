@@ -55,6 +55,8 @@ class Instance:
         #: Signal emitted when the focus changes to another window. Sends ``active_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the now active window, as signal data.
         self.signal_active_window_changed: Signal = Signal(self)
 
+        self.signal_floating_changed: Signal = Signal(self)
+
 
     def __repr__(self):
         return f"<Instance(signature={self.signature!r})>"
@@ -215,6 +217,8 @@ class Instance:
                 'createworkspace': self.signal_workspace_created,
                 'destroyworkspace': self.signal_workspace_destroyed,
                 'workspace': self.signal_active_workspace_changed,
+
+                'changefloatingmode': self.signal_floating_changed,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
@@ -243,6 +247,9 @@ class Instance:
                     signal.emit(destroyed_workspace_id=(int(event_data) if event_data not in ['special', 'special:special'] else -99))
                 elif event_name == 'workspace':
                     signal.emit(active_workspace_id=(int(event_data) if event_data not in ['special', 'special:special'] else -99))
+
+                elif event_name == 'changefloatingmode':
+                    signal.emit(change_floating_mode=(None if event_data == ',' else event_data))
 
 
         try:

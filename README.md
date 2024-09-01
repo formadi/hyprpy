@@ -1,5 +1,7 @@
 # Hyprpy
 
+### This is a modified version for personal use, and it is a repository to support Hyprland 0.42.0. The changes are as follows.
+
 [Hyprpy](https://github.com/ulinja/hyprpy) is a library that provides python bindings for the [Hyprland](https://hyprland.org/) wayland compositor.
 
 With Hyprpy you can very easily retrieve information about windows, workspaces and monitors

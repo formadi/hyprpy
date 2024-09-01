@@ -11,6 +11,9 @@ pip3 install hyprpy
 ```
 
 2. Download the source code from this repository using git clone and overwrite the installed original source with it.
+for example:
 ```
-git clone 
+git clone https://github.com/formadi/hyprpy.git
+cp -Rf hyprpy ~/.local/lib/python3.12/site-packages/
+```
 

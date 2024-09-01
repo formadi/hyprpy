@@ -55,11 +55,11 @@ class WindowData(BaseModel):
     #: Unknown.
     is_pinned: bool = Field(..., alias="pinned")
     #: Whether or not the window is in fullscreen mode.
-    is_fullscreen: bool = Field(..., alias="fullscreen")
+    is_fullscreen: int = Field(..., alias="fullscreen")
     #: Unknown.
-    fullscreen_mode: int = Field(..., alias="fullscreenMode")
+    # fullscreen_mode: int = Field(..., alias="fullscreenMode")
     #: Unknown.
-    is_fake_fullscreen: bool = Field(..., alias="fakeFullscreen")
+    # is_fake_fullscreen: bool = Field(..., alias="fakeFullscreen")
 
 
 class WorkspaceData(BaseModel):

@@ -249,7 +249,7 @@ class Instance:
                     signal.emit(active_workspace_id=(int(event_data) if event_data not in ['special', 'special:special'] else -99))
 
                 elif event_name == 'changefloatingmode':
-                    signal.emit(change_floating_mode=(None if event_data == ',' else event_data))
+                    signal.emit(changed_floating_mode=(None if event_data == ',' else event_data))
 
 
         try:

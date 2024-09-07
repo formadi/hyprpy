@@ -1,6 +1,6 @@
-"""The `data` module provides Pydantic-based data model classes designed for defining 
-the data structure, validation, and serialization/deserialization of the various 
-Hyprland components. These model classes act as the central point of data transformation, 
+"""The `data` module provides Pydantic-based data model classes designed for defining
+the data structure, validation, and serialization/deserialization of the various
+Hyprland components. These model classes act as the central point of data transformation,
 ensuring that data retrieved from Hyprland is correctly structured and validated.
 
 Utility:
@@ -9,11 +9,11 @@ Utility:
     The source of this JSON data is primarily the :class:`~hyprpy.utils.sockets.CommandSocket`
     which interacts with Hyprland to retrieve current state and event information.
 
-    Notably, these data models not only handle validation but also perform renaming of 
+    Notably, these data models not only handle validation but also perform renaming of
     JSON properties to provide a more Pythonic interface.
 
 Serialization:
-    The instantiated data model objects are easily serializable back into JSON, providing 
+    The instantiated data model objects are easily serializable back into JSON, providing
     flexibility in both consuming Hyprland data and in using it for further operations.
 
 Example:
@@ -81,7 +81,7 @@ Example:
           "pid": 1782,
           "is_xwayland": false,
           "is_pinned": false,
-          "is_fullscreen": false,
+          "is_fullscreen": 0,
           "fullscreen_mode": 0,
           "is_fake_fullscreen": false
         }

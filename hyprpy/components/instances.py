@@ -55,36 +55,12 @@ class Instance:
         #: Signal emitted when the focus changes to another window. Sends ``active_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the now active window, as signal data.
         self.signal_active_window_changed: Signal = Signal(self)
 
+        # PJG : floating
         self.signal_floating_changed: Signal = Signal(self)
 
 
     def __repr__(self):
         return f"<Instance(signature={self.signature!r})>"
-
-    def dispatch(self, arguments: list[str]) -> Union[str, None]:
-        """Runs a generic dispatcher command with the given arguments and returns ``None`` on success or a string indicating errors.
-
-        See the `Hyprland Wiki <https://wiki.hyprland.org/Configuring/Dispatchers/>`_ for a list
-        of available commands.
-
-        Example:
-
-        .. code-block:: python
-
-            from hyprpy import Hyprland
-
-            instance = Hyprland()
-            instance.dispatch(["cyclenext", "prev"])
-
-        :param arguments: A list of strings containing the arguments of the dispatch command.
-        :type arguments: list[str]
-        :return: `None` if the command succeeded, otherwise a string indicating errors.
-        :rtype: str or None
-        """
-
-        dispatch_response = self.command_socket.send_command('dispatch', flags=['-j'], args=arguments)
-        dispatch_error = dispatch_response if dispatch_response != 'ok' else None
-        return dispatch_error
 
 
     def get_windows(self) -> List['Window']:
@@ -209,6 +185,7 @@ class Instance:
         """
 
         def _handle_socket_data(data: str):
+            # print("test")
             signal_for_event = {
                 'openwindow': self.signal_window_created,
                 'closewindow': self.signal_window_destroyed,
@@ -218,19 +195,27 @@ class Instance:
                 'destroyworkspace': self.signal_workspace_destroyed,
                 'workspace': self.signal_active_workspace_changed,
 
+                # PJG
                 'changefloatingmode': self.signal_floating_changed,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
+
             for line in lines:
                 event_name, event_data = line.split('>>', maxsplit=1)
+                # print("event_name : ",event_name)
+                # print("event_data : ",event_data)
 
                 # Pick the signal to emit based on the event's name
                 if event_name not in signal_for_event:
+                    # print("unknown event")
                     continue
                 signal = signal_for_event[event_name]
+                # print("signal : ", signal)
+
                 if not signal._observers:
                     # If the signal has no observers, just exit
+                    # print("is not have observer")
                     continue
 
                 # We send specific data along with the signal, depending on the event
@@ -241,16 +226,16 @@ class Instance:
                 elif event_name == 'activewindowv2':
                     signal.emit(active_window_address=(None if event_data == ',' else event_data))
 
-                elif event_name == 'createworkspace':
-                    signal.emit(created_workspace_id=(int(event_data) if event_data not in ['special', 'special:special'] else -99))
-                elif event_name == 'destroyworkspace':
-                    signal.emit(destroyed_workspace_id=(int(event_data) if event_data not in ['special', 'special:special'] else -99))
-                elif event_name == 'workspace':
-                    signal.emit(active_workspace_id=(int(event_data) if event_data not in ['special', 'special:special'] else -99))
-
+                # PJG
                 elif event_name == 'changefloatingmode':
                     signal.emit(changed_floating_mode=(None if event_data == ',' else event_data))
 
+                elif event_name == 'createworkspace':
+                    signal.emit(created_workspace_id=(int(event_data) if event_data != 'special' else -99))
+                elif event_name == 'destroyworkspace':
+                    signal.emit(destroyed_workspace_id=(int(event_data) if event_data != 'special' else -99))
+                elif event_name == 'workspace':
+                    signal.emit(active_workspace_id=(int(event_data) if event_data != 'special' else -99))
 
         try:
             self.event_socket.connect()

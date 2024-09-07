@@ -48,11 +48,18 @@ class Window:
         #: Unknown.
         self.is_pinned: bool = data.is_pinned
         #: Whether or not the window is in fullscreen mode.
+        # PJG : 2024.08.30
+        # is_fullscreen      : 원래는 bool 이였지만, Hyprland 0.24.0 이상에서 int 형으로 바뀜
+        # fullscreen_mode    : Hyprland 0.24.0 이상에서 없어짐
+        # is_fake_fullscreen : Hyprland 0.24.0 이상에서 없어짐
         self.is_fullscreen: int = data.is_fullscreen
         #: Unknown.
-        # self.fullscreen_mode: int = data.fullscreen_mode
-        #: Unknown.
-        # self.is_fake_fullscreen: bool = data.is_fake_fullscreen
+        self.fullscreen_client: int = data.fullscreen_client
+        # #: Unknown.
+        self.grouped: list[int] = data.grouped
+        self.tags: list[int] = data.tags
+        self.swallowing: str = data.swallowing
+        self.focus_history_id: int = data.focus_history_id
 
         #: The :class:`~hyprpy.components.instances.Instance` managing this window.
         self._instance = instance

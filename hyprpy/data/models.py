@@ -56,10 +56,13 @@ class WindowData(BaseModel):
     is_pinned: bool = Field(..., alias="pinned")
     #: Whether or not the window is in fullscreen mode.
     is_fullscreen: int = Field(..., alias="fullscreen")
-    #: Unknown.
-    # fullscreen_mode: int = Field(..., alias="fullscreenMode")
-    #: Unknown.
-    # is_fake_fullscreen: bool = Field(..., alias="fakeFullscreen")
+
+    fullscreen_client: int = Field(..., alias="fullscreenClient")
+    grouped: list[int] = Field(..., alias="grouped")
+    tags: list[int] = Field(..., alias="tags")
+    swallowing:HexString = Field(...,alias="swallowing")
+    focus_history_id: int = Field(...,alias="focusHistoryID")
+
 
 
 class WorkspaceData(BaseModel):

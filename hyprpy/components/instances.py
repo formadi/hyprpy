@@ -189,7 +189,7 @@ class Instance:
             signal_for_event = {
                 'openwindow': self.signal_window_created,
                 'closewindow': self.signal_window_destroyed,
-                'activewindowv2': self.signal_active_window_changed,
+                'activewindow': self.signal_active_window_changed,
 
                 'createworkspace': self.signal_workspace_created,
                 'destroyworkspace': self.signal_workspace_destroyed,
@@ -223,8 +223,8 @@ class Instance:
                     signal.emit(created_window_address=event_data.split(',')[0])
                 elif event_name == 'closewindow':
                     signal.emit(destroyed_window_address=event_data)
-                elif event_name == 'activewindowv2':
-                    signal.emit(active_window_address=(None if event_data == ',' else event_data))
+                elif event_name == 'activewindow':
+                    signal.emit(active_window_class_title=(None if event_data == ',' else event_data))
 
                 # PJG
                 elif event_name == 'changefloatingmode':

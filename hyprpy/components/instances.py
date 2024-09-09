@@ -57,6 +57,8 @@ class Instance:
 
         # PJG : floating
         self.signal_floating_changed: Signal = Signal(self)
+        self.signal_move_into_group: Signal = Signal(self)
+        self.signal_move_out_of_group: Signal = Signal(self)
 
 
     def __repr__(self):
@@ -197,6 +199,8 @@ class Instance:
 
                 # PJG
                 'changefloatingmode': self.signal_floating_changed,
+                'moveintogroup': self.signal_move_into_group,
+                'moveoutofgroup': self.signal_move_out_of_group,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
@@ -229,6 +233,10 @@ class Instance:
                 # PJG
                 elif event_name == 'changefloatingmode':
                     signal.emit(changed_floating_mode=(None if event_data == ',' else event_data))
+                elif event_name == 'moveintogroup':
+                    signal.emit(moved_into_group=(None if event_data == ',' else event_data))
+                elif event_name == 'moveoutofgroup':
+                    signal.emit(moved_out_of_group=(None if event_data == ',' else event_data))
 
                 elif event_name == 'createworkspace':
                     signal.emit(created_workspace_id=(int(event_data) if event_data != 'special' else -99))

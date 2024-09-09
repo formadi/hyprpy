@@ -56,7 +56,7 @@ class Window:
         #: Unknown.
         self.fullscreen_client: int = data.fullscreen_client
         # #: Unknown.
-        self.grouped: list[int] = data.grouped
+        self.grouped: list[str] = data.grouped
         self.tags: list[int] = data.tags
         self.swallowing: str = data.swallowing
         self.focus_history_id: int = data.focus_history_id

@@ -1,6 +1,6 @@
 # Hyprpy
 
- This is a modified version for personal use, and it is a repository to support Hyprland 0.42.0. The changes are as follows.
+ This is a modified version for personal use, and it is a repository to support Hyprland >= 0.42.0. The changes are as follows.
 - Added a new event for switching windows to floating mode.
 - Fixed an issue that occurred when switching windows to fullscreen mode.
 
@@ -14,6 +14,6 @@ pip3 install hyprpy
 for example:
 ```
 git clone https://github.com/formadi/hyprpy.git
+cd hyprpy
 cp -Rf hyprpy ~/.local/lib/python3.12/site-packages/
 ```
-

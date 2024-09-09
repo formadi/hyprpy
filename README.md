@@ -15,5 +15,5 @@ for example:
 ```
 git clone https://github.com/formadi/hyprpy.git
 cd hyprpy
-cp -Rf hyprpy ~/.local/lib/python3.12/site-packages/
+cp -Rf hyprpy /path/to/pythonX.XX/site-packages/
 ```

@@ -55,7 +55,6 @@ class Instance:
         #: Signal emitted when the focus changes to another window. Sends ``active_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the now active window, as signal data.
         self.signal_active_window_changed: Signal = Signal(self)
 
-        # PJG : floating
         self.signal_floating_changed: Signal = Signal(self)
         self.signal_move_into_group: Signal = Signal(self)
         self.signal_move_out_of_group: Signal = Signal(self)
@@ -189,37 +188,30 @@ class Instance:
         def _handle_socket_data(data: str):
             # print("test")
             signal_for_event = {
-                'openwindow': self.signal_window_created,
-                'closewindow': self.signal_window_destroyed,
-                'activewindow': self.signal_active_window_changed,
+                'openwindow'        : self.signal_window_created,
+                'closewindow'       : self.signal_window_destroyed,
+                'activewindow'      : self.signal_active_window_changed,
 
-                'createworkspace': self.signal_workspace_created,
-                'destroyworkspace': self.signal_workspace_destroyed,
-                'workspace': self.signal_active_workspace_changed,
+                'createworkspace'   : self.signal_workspace_created,
+                'destroyworkspace'  : self.signal_workspace_destroyed,
+                'workspace'         : self.signal_active_workspace_changed,
 
-                # PJG
                 'changefloatingmode': self.signal_floating_changed,
-                'moveintogroup': self.signal_move_into_group,
-                'moveoutofgroup': self.signal_move_out_of_group,
+                'moveintogroup'     : self.signal_move_into_group,
+                'moveoutofgroup'    : self.signal_move_out_of_group,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
 
             for line in lines:
                 event_name, event_data = line.split('>>', maxsplit=1)
-                # print("event_name : ",event_name)
-                # print("event_data : ",event_data)
 
                 # Pick the signal to emit based on the event's name
                 if event_name not in signal_for_event:
-                    # print("unknown event")
                     continue
                 signal = signal_for_event[event_name]
-                # print("signal : ", signal)
 
                 if not signal._observers:
-                    # If the signal has no observers, just exit
-                    # print("is not have observer")
                     continue
 
                 # We send specific data along with the signal, depending on the event
@@ -230,7 +222,6 @@ class Instance:
                 elif event_name == 'activewindow':
                     signal.emit(active_window_class_title=(None if event_data == ',' else event_data))
 
-                # PJG
                 elif event_name == 'changefloatingmode':
                     signal.emit(changed_floating_mode=(None if event_data == ',' else event_data))
                 elif event_name == 'moveintogroup':

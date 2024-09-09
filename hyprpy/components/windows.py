@@ -48,10 +48,6 @@ class Window:
         #: Unknown.
         self.is_pinned: bool = data.is_pinned
         #: Whether or not the window is in fullscreen mode.
-        # PJG : 2024.08.30
-        # is_fullscreen      : 원래는 bool 이였지만, Hyprland 0.24.0 이상에서 int 형으로 바뀜
-        # fullscreen_mode    : Hyprland 0.24.0 이상에서 없어짐
-        # is_fake_fullscreen : Hyprland 0.24.0 이상에서 없어짐
         self.is_fullscreen: int = data.is_fullscreen
         #: Unknown.
         self.fullscreen_client: int = data.fullscreen_client

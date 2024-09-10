@@ -59,7 +59,7 @@ class WindowData(BaseModel):
 
     fullscreen_client: int = Field(..., alias="fullscreenClient")
     grouped: list[str] = Field(..., alias="grouped")
-    tags: list[int] = Field(..., alias="tags")
+    tags: list[str] = Field(..., alias="tags")
     swallowing:HexString = Field(...,alias="swallowing")
     focus_history_id: int = Field(...,alias="focusHistoryID")
 

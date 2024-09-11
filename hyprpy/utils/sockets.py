@@ -2,9 +2,9 @@
 
 Hyprland offers two UNIX sockets:
 
-1. `EventSocket <https://wiki.hyprland.org/IPC/#tmphyprhissocket2sock>`_: This socket broadcasts various events occurring in the Hyprland session, 
+1. `EventSocket <https://wiki.hyprland.org/IPC/#tmphyprhissocket2sock>`_: This socket broadcasts various events occurring in the Hyprland session,
    e.g., windows or workspaces getting created or destroyed.
-2. `CommandSocket <https://wiki.hyprland.org/IPC/#tmphyprhissocketsock>`_: This socket can be written to in order to influence Hyprland's behavior 
+2. `CommandSocket <https://wiki.hyprland.org/IPC/#tmphyprhissocketsock>`_: This socket can be written to in order to influence Hyprland's behavior
    or send queries about the current state.
 
 Hyprpy uses standard library `sockets <https://docs.python.org/3/library/socket.html>`_ for socket operations.
@@ -33,7 +33,8 @@ from os import getenv
 from pathlib import PosixPath
 from typing import List
 import logging
-import select, socket
+import select
+import socket
 
 from hyprpy.utils import assertions
 

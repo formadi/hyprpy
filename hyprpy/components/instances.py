@@ -59,6 +59,7 @@ class Instance:
         self.signal_move_into_group: Signal = Signal(self)
         self.signal_move_out_of_group: Signal = Signal(self)
         self.signal_toggle_group: Signal = Signal(self)
+        self.signal_window_moved: Signal = Signal(self)
 
 
     def __repr__(self):
@@ -201,6 +202,7 @@ class Instance:
                 'moveintogroup'     : self.signal_move_into_group,
                 'moveoutofgroup'    : self.signal_move_out_of_group,
                 'togglegroup'       : self.signal_toggle_group,
+                'movewindow'        : self.signal_window_moved,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
@@ -232,6 +234,8 @@ class Instance:
                     signal.emit(moved_out_of_group=(None if event_data == ',' else event_data))
                 elif event_name == 'togglegroup':
                     signal.emit(toggled_group=(None if event_data == ',' else event_data))
+                elif event_name == 'movewindow':
+                    signal.emit(moved_window=(None if event_data == ',' else event_data))
 
                 elif event_name == 'createworkspace':
                     signal.emit(created_workspace_id=(int(event_data) if event_data != 'special' else -99))

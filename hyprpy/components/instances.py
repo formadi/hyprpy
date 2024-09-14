@@ -42,24 +42,24 @@ class Instance:
         self.command_socket: CommandSocket = CommandSocket(signature)
 
         #: Signal emitted when a new workspace gets created. Sends ``created_workspace_id``, the :attr:`~hyprpy.components.workspaces.Workspace.id` of the created workspace, as signal data.
-        self.signal_workspace_created: Signal = Signal(self)
+        self.signal_createworkspace: Signal = Signal(self)
         #: Signal emitted when an existing workspace gets destroyed. Sends ``destroyed_workspace_id``, the :attr:`~hyprpy.components.workspaces.Workspace.id` of the destroyed workspace, as signal data
-        self.signal_workspace_destroyed: Signal = Signal(self)
+        self.signal_destroyworkspace: Signal = Signal(self)
         #: Signal emitted when the focus changes to another workspace. Sends ``active_workspace_id``, the :attr:`~hyprpy.components.workspaces.Workspace.id` of the now active workspace, as signal data.
-        self.signal_active_workspace_changed: Signal = Signal(self)
+        self.signal_workspace: Signal = Signal(self)
 
         #: Signal emitted when a new window gets created. Sends ``created_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the newly created window, as signal data.
-        self.signal_window_created: Signal = Signal(self)
+        self.signal_openwindow: Signal = Signal(self)
         #: Signal emitted when an existing window gets destroyed. Sends ``destroyed_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the destroyed window, as signal data.
-        self.signal_window_destroyed: Signal = Signal(self)
+        self.signal_closewindow: Signal = Signal(self)
         #: Signal emitted when the focus changes to another window. Sends ``active_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the now active window, as signal data.
-        self.signal_active_window_changed: Signal = Signal(self)
+        self.signal_activewindow: Signal = Signal(self)
 
-        self.signal_floating_changed: Signal = Signal(self)
-        self.signal_move_into_group: Signal = Signal(self)
-        self.signal_move_out_of_group: Signal = Signal(self)
-        self.signal_toggle_group: Signal = Signal(self)
-        self.signal_window_moved: Signal = Signal(self)
+        self.signal_changefloatingmode: Signal = Signal(self)
+        self.signal_moveintogroup: Signal = Signal(self)
+        self.signal_moveoutofgroup: Signal = Signal(self)
+        self.signal_togglegroup: Signal = Signal(self)
+        self.signal_movewindow: Signal = Signal(self)
 
 
     def __repr__(self):
@@ -190,19 +190,19 @@ class Instance:
         def _handle_socket_data(data: str):
             # print("test")
             signal_for_event = {
-                'openwindow'        : self.signal_window_created,
-                'closewindow'       : self.signal_window_destroyed,
-                'activewindow'      : self.signal_active_window_changed,
+                'openwindow'        : self.signal_openwindow,
+                'closewindow'       : self.signal_closewindow,
+                'activewindow'      : self.signal_activewindow,
 
-                'createworkspace'   : self.signal_workspace_created,
-                'destroyworkspace'  : self.signal_workspace_destroyed,
-                'workspace'         : self.signal_active_workspace_changed,
+                'createworkspace'   : self.signal_createworkspace,
+                'destroyworkspace'  : self.signal_destroyworkspace,
+                'workspace'         : self.signal_workspace,
 
-                'changefloatingmode': self.signal_floating_changed,
-                'moveintogroup'     : self.signal_move_into_group,
-                'moveoutofgroup'    : self.signal_move_out_of_group,
-                'togglegroup'       : self.signal_toggle_group,
-                'movewindow'        : self.signal_window_moved,
+                'changefloatingmode': self.signal_changefloatingmode,
+                'moveintogroup'     : self.signal_moveintogroup,
+                'moveoutofgroup'    : self.signal_moveoutofgroup,
+                'togglegroup'       : self.signal_togglegroup,
+                'movewindow'        : self.signal_movewindow,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
@@ -220,29 +220,28 @@ class Instance:
 
                 # We send specific data along with the signal, depending on the event
                 if event_name == 'openwindow':
-                    signal.emit(created_window_address=event_data.split(',')[0])
+                    # signal.emit(addr_workspace_class_title=event_data.split(',')[0])
+                    signal.emit(addr_workspace_class_title=event_data)
                 elif event_name == 'closewindow':
-                    signal.emit(destroyed_window_address=event_data)
+                    signal.emit(addr=event_data)
                 elif event_name == 'activewindow':
-                    signal.emit(active_window_class_title=(None if event_data == ',' else event_data))
-
+                    signal.emit(class_title=(None if event_data == ',' else event_data))
                 elif event_name == 'changefloatingmode':
-                    signal.emit(changed_floating_mode=(None if event_data == ',' else event_data))
+                    signal.emit(addr_mode=(None if event_data == ',' else event_data))
                 elif event_name == 'moveintogroup':
-                    signal.emit(moved_into_group=(None if event_data == ',' else event_data))
+                    signal.emit(addr=(None if event_data == ',' else event_data))
                 elif event_name == 'moveoutofgroup':
-                    signal.emit(moved_out_of_group=(None if event_data == ',' else event_data))
+                    signal.emit(addr=(None if event_data == ',' else event_data))
                 elif event_name == 'togglegroup':
-                    signal.emit(toggled_group=(None if event_data == ',' else event_data))
+                    signal.emit(mode_addr=(None if event_data == ',' else event_data))
                 elif event_name == 'movewindow':
-                    signal.emit(moved_window=(None if event_data == ',' else event_data))
-
+                    signal.emit(addr_workspace=(None if event_data == ',' else event_data))
                 elif event_name == 'createworkspace':
-                    signal.emit(created_workspace_id=(int(event_data) if event_data != 'special' else -99))
+                    signal.emit(workspace=(int(event_data) if event_data != 'special' else -99))
                 elif event_name == 'destroyworkspace':
-                    signal.emit(destroyed_workspace_id=(int(event_data) if event_data != 'special' else -99))
+                    signal.emit(workspace=(int(event_data) if event_data != 'special' else -99))
                 elif event_name == 'workspace':
-                    signal.emit(active_workspace_id=(int(event_data) if event_data != 'special' else -99))
+                    signal.emit(workspace=(int(event_data) if event_data != 'special' else -99))
 
         try:
             self.event_socket.connect()

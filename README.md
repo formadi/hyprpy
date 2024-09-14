@@ -1,4 +1,4 @@
-# Hyprpy2
+# Hyprpy
 
  This is a modified version for "personal" use, and it is a repository to support Hyprland >= 0.42.0. The changes are as follows.
 - Changed signal name to Hyprland event name.

@@ -18,3 +18,5 @@ git clone https://github.com/formadi/hyprpy.git
 cd hyprpy
 cp -Rf hyprpy /path/to/pythonX.XX/site-packages/
 ```
+
+3. The default setting is for Hyprland 0.42.x. To use it with version 0.43.x, you need to find all instances of version = "hyprland 0.42.x" and change them to version = "hyprland 0.43.x"

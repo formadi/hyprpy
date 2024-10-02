@@ -11,44 +11,25 @@ class Monitor:
     def __init__(self, monitor_data: str, instance: 'instances.Instance'):
         data = MonitorData.model_validate(monitor_data)
 
-        #: Numeric ID of the monitor.
-        self.id: int = data.id
-        #: Name of the monitor.
-        self.name: str = data.name
-        #: Manufacturer's name.
-        self.description: str = data.description
-        #: Model number of the monitor.
-        self.make: str = data.make
-        #: Composite string of `make`, `name` and `model`.
-        self.model: str = data.model
-        #: Unknown.
-        self.serial: str = data.serial
-        #: Width of the monitor (in pixels).
-        self.width: int = data.width
-        #: Height of the monitor (in pixels).
-        self.height: int = data.height
-        #: Refresh rate of the monitor (in Hz).
-        self.refresh_rate: float = data.refresh_rate
-        #: Unknown.
-        self.position_x: int = data.position_x
-        #: Unknown.
-        self.position_y: int = data.position_y
-        #: Numeric ID of the workspace currently active on the monitor.
-        self.active_workspace_id: int = data.active_workspace_id
-        #: Assigned name of the workspace currently active on the monitor.
-        self.active_workspace_name: str = data.active_workspace_name
-        #: Unknown.
-        self.reserved: List[int] = data.reserved
-        #: Unknown.
-        self.scale: float = data.scale
-        #: Unknown.
-        self.transform: int = data.transform
-        #: Whether or not the currently focused window is on this monitor.
-        self.is_focused: bool = data.is_focused
-        #: Whether or not the monitor uses DPMS.
-        self.uses_dpms: bool = data.uses_dpms
-        #: Unknown.
-        self.vrr: bool = data.vrr
+        self.id                   : int       = data.id
+        self.name                 : str       = data.name
+        self.description          : str       = data.description
+        self.make                 : str       = data.make
+        self.model                : str       = data.model
+        self.serial               : str       = data.serial
+        self.width                : int       = data.width
+        self.height               : int       = data.height
+        self.refresh_rate         : float     = data.refresh_rate
+        self.position_x           : int       = data.position_x
+        self.position_y           : int       = data.position_y
+        self.active_workspace_id  : int       = data.active_workspace_id
+        self.active_workspace_name: str       = data.active_workspace_name
+        self.reserved             : List[int] = data.reserved
+        self.scale                : float     = data.scale
+        self.transform            : int       = data.transform
+        self.is_focused           : bool      = data.is_focused
+        self.uses_dpms            : bool      = data.uses_dpms
+        self.vrr                  : bool      = data.vrr
 
         #: The :class:`~hyprpy.components.instances.Instance` managing this monitor.
         self._instance = instance

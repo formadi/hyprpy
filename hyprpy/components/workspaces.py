@@ -13,20 +13,25 @@ class Workspace:
     def __init__(self, workspace_data: dict, instance: 'instances.Instance'):
         data = WorkspaceData.model_validate(workspace_data)
 
-        #: Numeric ID of the workspace.
-        self.id: int = data.id
-        #: Name assigned to the workspace.
-        self.name: str = data.name
-        #: Name of the monitor which this workspace is on.
-        self.monitor_name: str = data.monitor_name
-        #: Address string of the most recently active window on the workspace.
-        self.last_window_address: str = data.last_window_address
-        #: Title of the most recently active window on the workspace.
-        self.last_window_title: str = data.last_window_title
-        #: Number of windows placed in the workspace.
-        self.window_count: int = data.window_count
-        #: True if at least one window in the workspace is in fullscreen mode.
-        self.has_fullscreen: bool = data.has_fullscreen
+        version = "hyprland 0.42.x"
+
+        if version == "hyprland 0.43.x":
+            self.id                 : int  = data.id
+            self.name               : str  = data.name
+            self.monitor_name       : str  = data.monitor_name
+            self.last_window_address: str  = data.last_window_address
+            self.last_window_title  : str  = data.last_window_title
+            self.window_count       : int  = data.window_count
+            self.has_fullscreen     : bool = data.has_fullscreen
+        else :
+            self.id                 : int  = data.id
+            self.name               : str  = data.name
+            self.monitor_name       : str  = data.monitor_name
+            self.monitor_id         : int  = data.monitor_id
+            self.window_count       : int  = data.window_count
+            self.has_fullscreen     : bool = data.has_fullscreen
+            self.last_window_address: str  = data.last_window_address
+            self.last_window_title  : str  = data.last_window_title
 
         #: The :class:`~hyprpy.components.instances.Instance` managing this workspace.
         self._instance = instance

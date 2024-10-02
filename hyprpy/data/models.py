@@ -18,113 +18,108 @@ from hyprpy.data.validators import HexString, NonEmptyString
 class WindowData(BaseModel):
     """Deserialization and validation of ``hyprctl`` window (client) data."""
 
-    #: String representation of a hexadecimal number, unique identifier for the window.
-    address: HexString
-    #: Unknown.
-    is_mapped: bool = Field(..., alias="mapped")
-    #: Unknown.
-    is_hidden: bool = Field(..., alias="hidden")
-    #: Absolute X-coordinate of the window on the monitor (in pixels).
-    position_x: int = Field(..., validation_alias=AliasPath("at", 0))
-    #: Absolute Y-coordinate of the window on the monitor (in pixels).
-    position_y: int = Field(..., validation_alias=AliasPath("at", 1))
-    #: Width of the window (in pixels).
-    width: int = Field(..., validation_alias=AliasPath("size", 0))
-    #: Height of the window (in pixels).
-    height: int = Field(..., validation_alias=AliasPath("size", 1))
-    #: Numeric ID of the workspace which the window is on.
-    workspace_id: int = Field(..., validation_alias=AliasPath("workspace", "id"))
-    #: Name of the workspace which the window is on.
-    workspace_name: str = Field(..., validation_alias=AliasPath("workspace", "name"))
-    #: Whether or not this is a floating window.
-    is_floating: bool = Field(..., alias="floating")
-    #: Numeric ID of the monitor which the window is on.
-    monitor_id: int = Field(..., alias="monitor")
-    #: Window manager class assigned to this window.
-    wm_class: str = Field(..., alias="class")
-    #: Current title of the window.
-    title: str
-    #: Window manager class when the window was created.
-    initial_wm_class: str = Field(..., alias="initialClass")
-    #: Title when the window was created.
-    initial_title: str = Field(..., alias="initialTitle")
-    #: Process ID of the process the window is assigned to.
-    pid: int
-    #: Whether or not the window is using xwayland to be displayed.
-    is_xwayland: bool = Field(..., alias="xwayland")
-    #: Unknown.
-    is_pinned: bool = Field(..., alias="pinned")
-    #: Whether or not the window is in fullscreen mode.
-    is_fullscreen: int = Field(..., alias="fullscreen")
+    version = "hyprland 0.42.x"
 
-    fullscreen_client: int = Field(..., alias="fullscreenClient")
-    grouped: list[str] = Field(..., alias="grouped")
-    tags: list[str] = Field(..., alias="tags")
-    swallowing:HexString = Field(...,alias="swallowing")
-    focus_history_id: int = Field(...,alias="focusHistoryID")
-
+    if version == "hyprland 0.43.x":
+        address          : HexString
+        is_mapped        : bool      = Field(..., alias            = "mapped")
+        is_hidden        : bool      = Field(..., alias            = "hidden")
+        position_x       : int       = Field(..., validation_alias = AliasPath("at", 0))
+        position_y       : int       = Field(..., validation_alias = AliasPath("at", 1))
+        width            : int       = Field(..., validation_alias = AliasPath("size", 0))
+        height           : int       = Field(..., validation_alias = AliasPath("size", 1))
+        workspace_id     : int       = Field(..., validation_alias = AliasPath("workspace", "id"))
+        workspace_name   : str       = Field(..., validation_alias = AliasPath("workspace", "name"))
+        is_floating      : bool      = Field(..., alias            = "floating")
+        monitor_id       : int       = Field(..., alias            = "monitor")
+        wm_class         : str       = Field(..., alias            = "class")
+        title            : str
+        initial_wm_class : str       = Field(..., alias            = "initialClass")
+        initial_title    : str       = Field(..., alias            = "initialTitle")
+        pid              : int
+        is_xwayland      : bool      = Field(..., alias            = "xwayland")
+        is_pinned        : bool      = Field(..., alias            = "pinned")
+        is_fullscreen    : int       = Field(..., alias            = "fullscreen")
+        fullscreen_client: int       = Field(..., alias            = "fullscreenClient")
+        grouped          : list[str] = Field(..., alias            = "grouped")
+        tags             : list[str] = Field(..., alias            = "tags")
+        swallowing       :HexString  = Field(...,alias             = "swallowing")
+        focus_history_id : int       = Field(...,alias             = "focusHistoryID")
+    else :
+        address          : HexString
+        is_mapped        : bool      = Field(..., alias            = "mapped")
+        is_hidden        : bool      = Field(..., alias            = "hidden")
+        position_x       : int       = Field(..., validation_alias = AliasPath("at", 0))
+        position_y       : int       = Field(..., validation_alias = AliasPath("at", 1))
+        width            : int       = Field(..., validation_alias = AliasPath("size", 0))
+        height           : int       = Field(..., validation_alias = AliasPath("size", 1))
+        workspace_id     : int       = Field(..., validation_alias = AliasPath("workspace", "id"))
+        workspace_name   : str       = Field(..., validation_alias = AliasPath("workspace", "name"))
+        is_floating      : bool      = Field(..., alias            = "floating")
+        pseudo           : bool      = Field(..., alias            = "pseudo")
+        monitor_id       : int       = Field(..., alias            = "monitor")
+        wm_class         : str       = Field(..., alias            = "class")
+        title            : str       = Field(..., alias            = "title")
+        initial_wm_class : str       = Field(..., alias            = "initialClass")
+        initial_title    : str       = Field(..., alias            = "initialTitle")
+        pid              : int
+        is_xwayland      : bool      = Field(..., alias            = "xwayland")
+        is_pinned        : bool      = Field(..., alias            = "pinned")
+        is_fullscreen    : bool      = Field(..., alias            = "fullscreen")
+        fullscreen_mode  : int       = Field(..., alias            = "fullscreenMode")
+        is_fakefullscreen: bool      = Field(..., alias            = "fakeFullscreen")
+        grouped          : list[str] = Field(..., alias            = "grouped")
+        tags             : list[str] = Field(..., alias            = "tags")
+        swallowing       : HexString = Field(...,alias             = "swallowing")
+        focus_history_id : int       = Field(...,alias             = "focusHistoryID")
 
 
 class WorkspaceData(BaseModel):
     """Deserialization and validation of ``hyprctl`` workspace data."""
 
-    #: Numeric ID of the workspace.
-    id: int
-    #: Name assigned to the workspace.
-    name: str
-    #: Name of the monitor which this workspace is on.
-    monitor_name: str = Field(..., alias="monitor")
-    #: Address string of the most recently active window on the workspace.
-    last_window_address: HexString = Field(..., alias="lastwindow")
-    #: Title of the most recently active window on the workspace.
-    last_window_title: str = Field(..., alias="lastwindowtitle")
-    #: Number of windows placed in the workspace.
-    window_count: int = Field(..., alias="windows")
-    #: True if at least one window in the workspace is in fullscreen mode.
-    has_fullscreen: bool = Field(..., alias="hasfullscreen")
+    version = "hyprland 0.42.x"
+
+    if version == "hyprland 0.43.x":
+        id                 : int
+        name               : str
+        monitor_name       : str       = Field(..., alias = "monitor")
+        last_window_address: HexString = Field(..., alias = "lastwindow")
+        last_window_title  : str       = Field(..., alias = "lastwindowtitle")
+        window_count       : int       = Field(..., alias = "windows")
+        has_fullscreen     : bool      = Field(..., alias = "hasfullscreen")
+    else                   :
+        id                 : int
+        name               : str
+        monitor_name       : str       = Field(..., alias = "monitor")
+        monitor_id         : int       = Field(..., alias = "monitorID")
+        window_count       : int       = Field(..., alias = "windows")
+        has_fullscreen     : bool      = Field(..., alias = "hasfullscreen")
+        last_window_address: HexString = Field(..., alias = "lastwindow")
+        last_window_title  : str       = Field(..., alias = "lastwindowtitle")
 
 
 class MonitorData(BaseModel):
     """Deserialization and validation of ``hyprctl`` monitor data."""
 
-    #: Numeric ID of the monitor.
-    id: int
-    #: Name of the monitor.
-    name: str
-    #: Manufacturer's name.
-    description: str
-    #: Model number of the monitor.
-    make: str
-    #: Composite string of `make`, `name` and `model`.
-    model: str
-    #: Unknown.
-    serial: str
-    #: Width of the monitor (in pixels).
-    width: int
-    #: Height of the monitor (in pixels).
-    height: int
-    #: Refresh rate of the monitor (in Hz).
-    refresh_rate: float = Field(..., alias="refreshRate")
-    #: Unknown.
-    position_x: int = Field(..., alias="x")
-    #: Unknown.
-    position_y: int = Field(..., alias="y")
-    #: Numeric ID of the workspace currently active on the monitor.
-    active_workspace_id: int = Field(..., validation_alias=AliasPath("activeWorkspace", "id"))
-    #: Assigned name of the workspace currently active on the monitor.
-    active_workspace_name: str = Field(..., validation_alias=AliasPath("activeWorkspace", "name"))
-    #: Unknown.
-    reserved: List[int]
-    #: Unknown.
-    scale: float
-    #: Unknown.
-    transform: int
-    #: Whether or not the currently focused window is on this monitor.
-    is_focused: bool = Field(..., alias="focused")
-    #: Whether or not the monitor uses DPMS.
-    uses_dpms: bool = Field(..., alias="dpmsStatus")
-    #: Unknown.
-    vrr: bool
+    id                   : int
+    name                 : str
+    description          : str
+    make                 : str
+    model                : str
+    serial               : str
+    width                : int
+    height               : int
+    refresh_rate         : float = Field(..., alias            = "refreshRate")
+    position_x           : int   = Field(..., alias            = "x")
+    position_y           : int   = Field(..., alias            = "y")
+    active_workspace_id  : int   = Field(..., validation_alias = AliasPath("activeWorkspace", "id"))
+    active_workspace_name: str   = Field(..., validation_alias = AliasPath("activeWorkspace", "name"))
+    reserved             : List[int]
+    scale                : float
+    transform            : int
+    is_focused           : bool  = Field(..., alias            = "focused")
+    uses_dpms            : bool  = Field(..., alias            = "dpmsStatus")
+    vrr                  : bool
 
 
 class InstanceData(BaseModel):

@@ -11,54 +11,65 @@ class Window:
     def __init__(self, window_data: dict, instance: 'instances.Instance'):
         data = WindowData.model_validate(window_data)
 
-        #: String representation of a hexadecimal number, unique identifier for the window.
-        self.address: str = data.address
-        #: Unknown.
-        self.is_mapped: bool = data.is_mapped
-        #: Unknown.
-        self.is_hidden: bool = data.is_hidden
-        #: Absolute X-coordinate of the window on the monitor (in pixels).
-        self.position_x: int = data.position_x
-        #: Absolute Y-coordinate of the window on the monitor (in pixels).
-        self.position_y: int = data.position_y
-        #: Width of the window (in pixels).
-        self.width: int = data.width
-        #: Height of the window (in pixels).
-        self.height: int = data.height
-        #: Numeric ID of the workspace which the window is on.
-        self.workspace_id: int = data.workspace_id
-        #: Name of the workspace which the window is on.
-        self.workspace_name: str = data.workspace_name
-        #: Whether or not this is a floating window.
-        self.is_floating: bool = data.is_floating
-        #: Numeric ID of the monitor which the window is on.
-        self.monitor_id: int = data.monitor_id
-        #: Window manager class assigned to this window.
-        self.wm_class: str = data.wm_class
-        #: Current title of the window.
-        self.title: str = data.title
-        #: Window manager class when the window was created.
-        self.initial_wm_class: str = data.initial_wm_class
-        #: Title when the window was created.
-        self.initial_title: str = data.initial_title
-        #: Process ID of the process the window is assigned to.
-        self.pid: int = data.pid
-        #: Whether or not the window is using xwayland to be displayed.
-        self.is_xwayland: bool = data.is_xwayland
-        #: Unknown.
-        self.is_pinned: bool = data.is_pinned
-        #: Whether or not the window is in fullscreen mode.
-        self.is_fullscreen: int = data.is_fullscreen
-        #: Unknown.
-        self.fullscreen_client: int = data.fullscreen_client
-        # #: Unknown.
-        self.grouped: list[str] = data.grouped
-        self.tags: list[str] = data.tags
-        self.swallowing: str = data.swallowing
-        self.focus_history_id: int = data.focus_history_id
+        version = "hyprland 0.42.x"
+
+        if version == "hyprland 0.43.x":
+            self.address          : str       = data.address
+            self.is_mapped        : bool      = data.is_mapped
+            self.is_hidden        : bool      = data.is_hidden
+            self.position_x       : int       = data.position_x
+            self.position_y       : int       = data.position_y
+            self.width            : int       = data.width
+            self.height           : int       = data.height
+            self.workspace_id     : int       = data.workspace_id
+            self.workspace_name   : str       = data.workspace_name
+            self.is_floating      : bool      = data.is_floating
+            self.monitor_id       : int       = data.monitor_id
+            self.wm_class         : str       = data.wm_class
+            self.title            : str       = data.title
+            self.initial_wm_class : str       = data.initial_wm_class
+            self.initial_title    : str       = data.initial_title
+            self.pid              : int       = data.pid
+            self.is_xwayland      : bool      = data.is_xwayland
+            self.is_pinned        : bool      = data.is_pinned
+            self.is_fullscreen    : int       = data.is_fullscreen
+            self.fullscreen_client: int       = data.fullscreen_client
+            self.grouped          : list[str] = data.grouped
+            self.tags             : list[str] = data.tags
+            self.swallowing       : str       = data.swallowing
+            self.focus_history_id : int       = data.focus_history_id
+        else :
+            self.address          : str       = data.address
+            self.is_mapped        : bool      = data.is_mapped
+            self.is_hidden        : bool      = data.is_hidden
+            self.position_x       : int       = data.position_x
+            self.position_y       : int       = data.position_y
+            self.width            : int       = data.width
+            self.height           : int       = data.height
+            self.workspace_id     : int       = data.workspace_id
+            self.workspace_name   : str       = data.workspace_name
+            self.is_floating      : bool      = data.is_floating
+            self.pseudo           : bool      = data.pseudo
+            self.monitor_id       : int       = data.monitor_id
+            self.wm_class         : str       = data.wm_class
+            self.title            : str       = data.title
+            self.initial_wm_class : str       = data.initial_wm_class
+            self.initial_title    : str       = data.initial_title
+            self.pid              : int       = data.pid
+            self.is_xwayland      : bool      = data.is_xwayland
+            self.is_pinned        : bool      = data.is_pinned
+            self.is_fullscreen    : bool      = data.is_fullscreen
+            self.fullscreen_mode  : int       = data.fullscreen_mode
+            self.is_fakefullscreen: bool      = data.is_fakefullscreen
+            self.grouped          : list[str] = data.grouped
+            self.tags             : list[str] = data.tags
+            self.swallowing       : str       = data.swallowing
+            self.focus_history_id : int       = data.focus_history_id
 
         #: The :class:`~hyprpy.components.instances.Instance` managing this window.
         self._instance = instance
+
+
 
 
     @property

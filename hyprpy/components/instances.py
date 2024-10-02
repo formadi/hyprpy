@@ -33,33 +33,23 @@ class Instance:
     def __init__(self, signature: str = shell.get_env_var_or_fail('HYPRLAND_INSTANCE_SIGNATURE')):
         data = InstanceData(signature=signature)
 
-        #: `Instance signature <https://wiki.hyprland.org/IPC/#hyprland-instance-signature-his>`_ of the Hyprland instance.
-        self.signature: str = data.signature
+        self.signature                : str           = data.signature
+        self.event_socket             : EventSocket   = EventSocket(signature)
+        self.command_socket           : CommandSocket = CommandSocket(signature)
 
-        #: The Hyprland event socket for this instance.
-        self.event_socket: EventSocket = EventSocket(signature)
-        #: The Hyprland command socket for this instance.
-        self.command_socket: CommandSocket = CommandSocket(signature)
+        self.signal_createworkspace   : Signal        = Signal(self)
+        self.signal_destroyworkspace  : Signal        = Signal(self)
+        self.signal_workspace         : Signal        = Signal(self)
 
-        #: Signal emitted when a new workspace gets created. Sends ``created_workspace_id``, the :attr:`~hyprpy.components.workspaces.Workspace.id` of the created workspace, as signal data.
-        self.signal_createworkspace: Signal = Signal(self)
-        #: Signal emitted when an existing workspace gets destroyed. Sends ``destroyed_workspace_id``, the :attr:`~hyprpy.components.workspaces.Workspace.id` of the destroyed workspace, as signal data
-        self.signal_destroyworkspace: Signal = Signal(self)
-        #: Signal emitted when the focus changes to another workspace. Sends ``active_workspace_id``, the :attr:`~hyprpy.components.workspaces.Workspace.id` of the now active workspace, as signal data.
-        self.signal_workspace: Signal = Signal(self)
+        self.signal_openwindow        : Signal        = Signal(self)
+        self.signal_closewindow       : Signal        = Signal(self)
+        self.signal_activewindow      : Signal        = Signal(self)
 
-        #: Signal emitted when a new window gets created. Sends ``created_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the newly created window, as signal data.
-        self.signal_openwindow: Signal = Signal(self)
-        #: Signal emitted when an existing window gets destroyed. Sends ``destroyed_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the destroyed window, as signal data.
-        self.signal_closewindow: Signal = Signal(self)
-        #: Signal emitted when the focus changes to another window. Sends ``active_window_address``, the :attr:`~hyprpy.components.windows.Window.address` of the now active window, as signal data.
-        self.signal_activewindow: Signal = Signal(self)
-
-        self.signal_changefloatingmode: Signal = Signal(self)
-        self.signal_moveintogroup: Signal = Signal(self)
-        self.signal_moveoutofgroup: Signal = Signal(self)
-        self.signal_togglegroup: Signal = Signal(self)
-        self.signal_movewindow: Signal = Signal(self)
+        self.signal_changefloatingmode: Signal        = Signal(self)
+        self.signal_moveintogroup     : Signal        = Signal(self)
+        self.signal_moveoutofgroup    : Signal        = Signal(self)
+        self.signal_togglegroup       : Signal        = Signal(self)
+        self.signal_movewindow        : Signal        = Signal(self)
 
 
     def __repr__(self):
@@ -220,7 +210,6 @@ class Instance:
 
                 # We send specific data along with the signal, depending on the event
                 if event_name == 'openwindow':
-                    # signal.emit(addr_workspace_class_title=event_data.split(',')[0])
                     signal.emit(addr_workspace_class_title=event_data)
                 elif event_name == 'closewindow':
                     signal.emit(addr=event_data)

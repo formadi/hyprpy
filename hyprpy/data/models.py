@@ -43,8 +43,8 @@ class WindowData(BaseModel):
         fullscreen_client: int       = Field(..., alias            = "fullscreenClient")
         grouped          : list[str] = Field(..., alias            = "grouped")
         tags             : list[str] = Field(..., alias            = "tags")
-        swallowing       :HexString  = Field(...,alias             = "swallowing")
-        focus_history_id : int       = Field(...,alias             = "focusHistoryID")
+        swallowing       : HexString = Field(..., alias            = "swallowing")
+        focus_history_id : int       = Field(..., alias            = "focusHistoryID")
     else :
         address          : HexString
         is_mapped        : bool      = Field(..., alias            = "mapped")
@@ -70,8 +70,8 @@ class WindowData(BaseModel):
         is_fakefullscreen: bool      = Field(..., alias            = "fakeFullscreen")
         grouped          : list[str] = Field(..., alias            = "grouped")
         tags             : list[str] = Field(..., alias            = "tags")
-        swallowing       : HexString = Field(...,alias             = "swallowing")
-        focus_history_id : int       = Field(...,alias             = "focusHistoryID")
+        swallowing       : HexString = Field(..., alias            = "swallowing")
+        focus_history_id : int       = Field(..., alias            = "focusHistoryID")
 
 
 class WorkspaceData(BaseModel):

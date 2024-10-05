@@ -50,6 +50,7 @@ class Instance:
         self.signal_moveoutofgroup    : Signal        = Signal(self)
         self.signal_togglegroup       : Signal        = Signal(self)
         self.signal_movewindow        : Signal        = Signal(self)
+        self.signal_customevent       : Signal        = Signal(self)
 
 
     def __repr__(self):
@@ -193,6 +194,8 @@ class Instance:
                 'moveoutofgroup'    : self.signal_moveoutofgroup,
                 'togglegroup'       : self.signal_togglegroup,
                 'movewindow'        : self.signal_movewindow,
+
+                'custom'            : self.signal_customevent,
             }
 
             lines = list(filter(lambda line: len(line) > 0, data.split('\n')))
@@ -231,6 +234,8 @@ class Instance:
                     signal.emit(workspace=(int(event_data) if event_data != 'special' else -99))
                 elif event_name == 'workspace':
                     signal.emit(workspace=(int(event_data) if event_data != 'special' else -99))
+                elif event_name == 'custom':
+                    signal.emit(event=(None if event_data == ',' else event_data))
 
         try:
             self.event_socket.connect()

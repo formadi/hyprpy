@@ -11,7 +11,7 @@ class Window:
     def __init__(self, window_data: dict, instance: 'instances.Instance'):
         data = WindowData.model_validate(window_data)
 
-        version = "hyprland 0.42.x"
+        version = "hyprland 0.43.x"
 
         if version == "hyprland 0.43.x":
             self.address          : str       = data.address
